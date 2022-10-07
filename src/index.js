@@ -90,15 +90,15 @@ const run = async () => {
 					// Use different commit/pr message based on if the source is a directory or file
 					const directory = isDirectory ? 'directory' : ''
 					const otherFiles = isDirectory ? 'and copied all sub files/folders' : ''
-					const useOriginalCommitMessage = ORIGINAL_MESSAGE && git.isOneCommitPush() && arrayEquals(await git.getChangesFromLastCommit(file.source), await git.changes(file.dest))
+					const useOriginalCommitMessage = true
 
 					const message = {
 						true: {
-							commit: useOriginalCommitMessage ? git.originalCommitMessage() : `${ COMMIT_PREFIX } Synced local '${ file.dest }' with remote '${ file.source }'`,
+							commit: git.originalCommitMessage(),
 							pr: `Synced local ${ directory } <code>${ file.dest }</code> with remote ${ directory } <code>${ file.source }</code>`
 						},
 						false: {
-							commit: useOriginalCommitMessage ? git.originalCommitMessage() : `${ COMMIT_PREFIX } Created local '${ file.dest }' from remote '${ file.source }'`,
+							commit: git.originalCommitMessage(),
 							pr: `Created local ${ directory } <code>${ file.dest }</code> ${ otherFiles } from remote ${ directory } <code>${ file.source }</code>`
 						}
 					}
@@ -139,14 +139,15 @@ const run = async () => {
 			if (hasChanges === true) {
 				core.debug(`Creating commit for remaining files`)
 
-				let useOriginalCommitMessage = ORIGINAL_MESSAGE && git.isOneCommitPush()
+				let useOriginalCommitMessage = true
 				if (useOriginalCommitMessage) {
 					await forEach(item.files, async (file) => {
 						useOriginalCommitMessage = useOriginalCommitMessage && arrayEquals(await git.getChangesFromLastCommit(file.source), await git.changes(file.dest))
 					})
 				}
 
-				const commitMessage = useOriginalCommitMessage ? git.originalCommitMessage() : undefined
+				const commitMessage = git.originalCommitMessage()
+				core.info(`Original commit message: ${commitMessage}`)
 				await git.commit(commitMessage)
 				modified.push({
 					dest: git.workingDir,
@@ -169,8 +170,10 @@ const run = async () => {
 					</details>
 				`)
 
-				const useCommitAsPRTitle = COMMIT_AS_PR_TITLE && modified.length === 1 && modified[0].useOriginalMessage
-				const pullRequest = await git.createOrUpdatePr(COMMIT_EACH_FILE ? changedFiles : '', useCommitAsPRTitle ? modified[0].commitMessage.split('\n', 1)[0].trim() : undefined)
+				const useCommitAsPRTitle = true
+				const modifiedCommitMessage = modified[0].commitMessage.split('\n', 1)[0].trim()
+				core.info(`Modified commit message: ${modifiedCommitMessage}`)
+				const pullRequest = await git.createOrUpdatePr(COMMIT_EACH_FILE ? changedFiles : '', modifiedCommitMessage)
 
 				core.notice(`Pull Request #${ pullRequest.number } created/updated: ${ pullRequest.html_url }`)
 				prUrls.push(pullRequest.html_url)
