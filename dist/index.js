@@ -526,8 +526,8 @@ class OidcClient {
             const res = yield httpclient
                 .getJson(id_token_url)
                 .catch(error => {
-                throw new Error(`Failed to get ID Token. \n 
-        Error Code : ${error.statusCode}\n 
+                throw new Error(`Failed to get ID Token. \n
+        Error Code : ${error.statusCode}\n
         Error Message: ${error.result.message}`);
             });
             const id_token = (_a = res.result) === null || _a === void 0 ? void 0 : _a.value;
@@ -6404,7 +6404,7 @@ module.exports = (str, filter = {}) => {
         filter = str || {};
         str = run();
     }
-    
+
     const {
         added,
         modified,
@@ -6412,7 +6412,7 @@ module.exports = (str, filter = {}) => {
         deleted,
         renamed,
     } = filter;
-    
+
     const files = parse(str);
     const picked = pick(files, {
         added,
@@ -6421,9 +6421,9 @@ module.exports = (str, filter = {}) => {
         deleted,
         renamed,
     });
-    
+
     const names = getNames(picked);
-    
+
     return names;
 };
 
@@ -6446,16 +6446,16 @@ function parse(str) {
     const lines = str
         .split('\n')
         .filter(Boolean);
-    
+
     for (const line of lines) {
         const {name, mode} = parseLine(line);
-        
+
         result.push({
             name,
             mode,
         });
     }
-    
+
     return result;
 }
 
@@ -6467,28 +6467,28 @@ const ARROW = '-> ';
 const cutRenameTo = (line) => {
     const i = line.indexOf(ARROW);
     const count = i + ARROW.length;
-    
+
     return line.slice(count);
 };
 
 function parseLine(line) {
     const [first] = line;
-    
+
     if (first === UNTRACKED)
         return {
             name: line.replace('?? ', ''),
             mode: UNTRACKED,
         };
-    
+
     if (first === RENAMED)
         return {
             name: cutRenameTo(line),
             mode: RENAMED,
         };
-    
+
     const [mode] = line.match(/^[\sA-Z]{1,}\s/, '');
     const name = line.replace(mode, '');
-    
+
     return {
         name,
         mode,
@@ -6503,22 +6503,22 @@ const isUntracked = ({mode}) => /\?/.test(mode);
 
 const check = ({added, modified, untracked, deleted, renamed}) => (file) => {
     let is = false;
-    
+
     if (added)
         is = is || isAdded(file);
-    
+
     if (modified)
         is = is || isModified(file);
-    
+
     if (untracked)
         is = is || isUntracked(file);
-    
+
     if (deleted)
         is = is || isDeleted(file);
-    
+
     if (renamed)
         is = is || isRenamed(file);
-    
+
     return is;
 };
 
@@ -9386,7 +9386,7 @@ Promise.prototype = {
     The primary way of interacting with a promise is through its `then` method,
     which registers callbacks to receive either a promise's eventual value or the
     reason why the promise cannot be fulfilled.
-  
+
     ```js
     findUser().then(function(user){
       // user is available
@@ -9394,14 +9394,14 @@ Promise.prototype = {
       // user is unavailable, and you are given the reason why
     });
     ```
-  
+
     Chaining
     --------
-  
+
     The return value of `then` is itself a promise.  This second, 'downstream'
     promise is resolved with the return value of the first promise's fulfillment
     or rejection handler, or rejected if the handler throws an exception.
-  
+
     ```js
     findUser().then(function (user) {
       return user.name;
@@ -9411,7 +9411,7 @@ Promise.prototype = {
       // If `findUser` fulfilled, `userName` will be the user's name, otherwise it
       // will be `'default name'`
     });
-  
+
     findUser().then(function (user) {
       throw new Error('Found user, but still unhappy');
     }, function (reason) {
@@ -9424,7 +9424,7 @@ Promise.prototype = {
     });
     ```
     If the downstream promise does not specify a rejection handler, rejection reasons will be propagated further downstream.
-  
+
     ```js
     findUser().then(function (user) {
       throw new PedagogicalException('Upstream error');
@@ -9436,15 +9436,15 @@ Promise.prototype = {
       // The `PedgagocialException` is propagated all the way down to here
     });
     ```
-  
+
     Assimilation
     ------------
-  
+
     Sometimes the value you want to propagate to a downstream promise can only be
     retrieved asynchronously. This can be achieved by returning a promise in the
     fulfillment or rejection handler. The downstream promise will then be pending
     until the returned promise is settled. This is called *assimilation*.
-  
+
     ```js
     findUser().then(function (user) {
       return findCommentsByAuthor(user);
@@ -9452,9 +9452,9 @@ Promise.prototype = {
       // The user's comments are now available
     });
     ```
-  
+
     If the assimliated promise rejects, then the downstream promise will also reject.
-  
+
     ```js
     findUser().then(function (user) {
       return findCommentsByAuthor(user);
@@ -9464,15 +9464,15 @@ Promise.prototype = {
       // If `findCommentsByAuthor` rejects, we'll have the reason here
     });
     ```
-  
+
     Simple Example
     --------------
-  
+
     Synchronous Example
-  
+
     ```javascript
     let result;
-  
+
     try {
       result = findResult();
       // success
@@ -9480,9 +9480,9 @@ Promise.prototype = {
       // failure
     }
     ```
-  
+
     Errback Example
-  
+
     ```js
     findResult(function(result, err){
       if (err) {
@@ -9492,9 +9492,9 @@ Promise.prototype = {
       }
     });
     ```
-  
+
     Promise Example;
-  
+
     ```javascript
     findResult().then(function(result){
       // success
@@ -9502,15 +9502,15 @@ Promise.prototype = {
       // failure
     });
     ```
-  
+
     Advanced Example
     --------------
-  
+
     Synchronous Example
-  
+
     ```javascript
     let author, books;
-  
+
     try {
       author = findAuthor();
       books  = findBooksByAuthor(author);
@@ -9519,19 +9519,19 @@ Promise.prototype = {
       // failure
     }
     ```
-  
+
     Errback Example
-  
+
     ```js
-  
+
     function foundBooks(books) {
-  
+
     }
-  
+
     function failure(reason) {
-  
+
     }
-  
+
     findAuthor(function(author, err){
       if (err) {
         failure(err);
@@ -9556,9 +9556,9 @@ Promise.prototype = {
       }
     });
     ```
-  
+
     Promise Example;
-  
+
     ```javascript
     findAuthor().
       then(findBooksByAuthor).
@@ -9568,7 +9568,7 @@ Promise.prototype = {
       // something went wrong
     });
     ```
-  
+
     @method then
     @param {Function} onFulfilled
     @param {Function} onRejected
@@ -9580,25 +9580,25 @@ Promise.prototype = {
   /**
     `catch` is simply sugar for `then(undefined, onRejection)` which makes it the same
     as the catch block of a try/catch statement.
-  
+
     ```js
     function findAuthor(){
       throw new Error('couldn't find that author');
     }
-  
+
     // synchronous
     try {
       findAuthor();
     } catch(reason) {
       // something went wrong
     }
-  
+
     // async with promises
     findAuthor().catch(function(reason){
       // something went wrong
     });
     ```
-  
+
     @method catch
     @param {Function} onRejection
     Useful for tooling.
@@ -21645,7 +21645,7 @@ class Git {
 	}
 
 	isOneCommitPush() {
-		return github.context.eventName === 'push' && github.context.payload.commits.length === 1
+		return true
 	}
 
 	originalCommitMessage() {
@@ -21722,7 +21722,7 @@ class Git {
 	}
 
 	async commit(msg) {
-		let message = msg !== undefined ? msg : `${ COMMIT_PREFIX } Synced file(s) with ${ GITHUB_REPOSITORY }`
+		let message = msg
 		if (COMMIT_BODY) {
 			message += `\n\n${ COMMIT_BODY }`
 		}
@@ -21918,7 +21918,7 @@ class Git {
 			Synced local file(s) with [${ GITHUB_REPOSITORY }](https://github.com/${ GITHUB_REPOSITORY }).
 
 			${ PR_BODY }
-			
+
 			${ changedFiles }
 
 			---
@@ -21932,7 +21932,7 @@ class Git {
 			const { data } = await this.github.pulls.update({
 				owner: this.repo.user,
 				repo: this.repo.name,
-				title: `${ COMMIT_PREFIX } Synced file(s) with ${ GITHUB_REPOSITORY }`,
+				title: title,
 				pull_number: this.existingPr.number,
 				body: body
 			})
@@ -21945,7 +21945,7 @@ class Git {
 		const { data } = await this.github.pulls.create({
 			owner: this.repo.user,
 			repo: this.repo.name,
-			title: title === undefined ? `${ COMMIT_PREFIX } Synced file(s) with ${ GITHUB_REPOSITORY }` : title,
+			title: title,
 			body: body,
 			head: `${ FORK ? FORK : this.repo.user }:${ this.prBranch }`,
 			base: this.baseBranch
@@ -22299,7 +22299,7 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
-/******/ 	
+/******/
 /******/ 	// The require function
 /******/ 	function __nccwpck_require__(moduleId) {
 /******/ 		// Check if module is in cache
@@ -22313,7 +22313,7 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
-/******/ 	
+/******/
 /******/ 		// Execute the module function
 /******/ 		var threw = true;
 /******/ 		try {
@@ -22322,16 +22322,16 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 /******/ 		} finally {
 /******/ 			if(threw) delete __webpack_module_cache__[moduleId];
 /******/ 		}
-/******/ 	
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/ 	
+/******/
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat */
-/******/ 	
+/******/
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
-/******/ 	
+/******/
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
@@ -22416,41 +22416,6 @@ const run = async () => {
 				await copy(source, dest, deleteOrphaned, file.exclude)
 
 				await git.add(file.dest)
-
-				// Commit each file separately, if option is set to false commit all files at once later
-				if (COMMIT_EACH_FILE === true) {
-					const hasChanges = await git.hasChanges()
-
-					if (hasChanges === false) return core.debug('File(s) already up to date')
-
-					core.debug(`Creating commit for file(s) ${ file.dest }`)
-
-					// Use different commit/pr message based on if the source is a directory or file
-					const directory = isDirectory ? 'directory' : ''
-					const otherFiles = isDirectory ? 'and copied all sub files/folders' : ''
-					const useOriginalCommitMessage = ORIGINAL_MESSAGE && git.isOneCommitPush() && arrayEquals(await git.getChangesFromLastCommit(file.source), await git.changes(file.dest))
-
-					const message = {
-						true: {
-							commit: useOriginalCommitMessage ? git.originalCommitMessage() : `${ COMMIT_PREFIX } Synced local '${ file.dest }' with remote '${ file.source }'`,
-							pr: `Synced local ${ directory } <code>${ file.dest }</code> with remote ${ directory } <code>${ file.source }</code>`
-						},
-						false: {
-							commit: useOriginalCommitMessage ? git.originalCommitMessage() : `${ COMMIT_PREFIX } Created local '${ file.dest }' from remote '${ file.source }'`,
-							pr: `Created local ${ directory } <code>${ file.dest }</code> ${ otherFiles } from remote ${ directory } <code>${ file.source }</code>`
-						}
-					}
-
-					// Commit and add file to modified array so we later know if there are any changes to actually push
-					await git.commit(message[destExists].commit)
-					modified.push({
-						dest: file.dest,
-						source: file.source,
-						message: message[destExists].pr,
-						useOriginalMessage: useOriginalCommitMessage,
-						commitMessage: message[destExists].commit
-					})
-				}
 			})
 
 			if (DRY_RUN) {
@@ -22477,14 +22442,14 @@ const run = async () => {
 			if (hasChanges === true) {
 				core.debug(`Creating commit for remaining files`)
 
-				let useOriginalCommitMessage = ORIGINAL_MESSAGE && git.isOneCommitPush()
+				let useOriginalCommitMessage = true
 				if (useOriginalCommitMessage) {
 					await forEach(item.files, async (file) => {
 						useOriginalCommitMessage = useOriginalCommitMessage && arrayEquals(await git.getChangesFromLastCommit(file.source), await git.changes(file.dest))
 					})
 				}
 
-				const commitMessage = useOriginalCommitMessage ? git.originalCommitMessage() : undefined
+				const commitMessage = git.originalCommitMessage()
 				await git.commit(commitMessage)
 				modified.push({
 					dest: git.workingDir,
@@ -22507,8 +22472,8 @@ const run = async () => {
 					</details>
 				`)
 
-				const useCommitAsPRTitle = COMMIT_AS_PR_TITLE && modified.length === 1 && modified[0].useOriginalMessage
-				const pullRequest = await git.createOrUpdatePr(COMMIT_EACH_FILE ? changedFiles : '', useCommitAsPRTitle ? modified[0].commitMessage.split('\n', 1)[0].trim() : undefined)
+				const useCommitAsPRTitle = true
+				const pullRequest = await git.createOrUpdatePr(COMMIT_EACH_FILE ? changedFiles : '', modified[0].commitMessage.split('\n', 1)[0].trim())
 
 				core.notice(`Pull Request #${ pullRequest.number } created/updated: ${ pullRequest.html_url }`)
 				prUrls.push(pullRequest.html_url)
