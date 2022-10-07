@@ -1,3 +1,5 @@
+> Forked from BetaHuhn/repo-file-sync-action. Using commit as PR title wasn't working from v1.17.21 so I modified the code to force using original commit and commit as PR.
+
 <div align="center">
   
 # Repo File Sync Action
